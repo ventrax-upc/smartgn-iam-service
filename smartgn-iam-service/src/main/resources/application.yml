@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: smartgn-iam-service
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+  datasource:
+    # On Render it must use JDBC format: jdbc:postgresql://<host>:5432/<db>
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/iam_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: iam
+  flyway:
+    enabled: true
+    schemas: iam
+    default-schema: iam
+    create-schemas: true
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+smartgn:
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiration-minutes: ${JWT_EXPIRATION_MINUTES:15}
+  password-reset:
+    expiration-minutes: ${PASSWORD_RESET_EXPIRATION_MINUTES:30}
+    # Frontend URL to which ?token=... is appended
+    link-base-url: ${PASSWORD_RESET_LINK_BASE_URL:http://localhost:4200/reset-password}

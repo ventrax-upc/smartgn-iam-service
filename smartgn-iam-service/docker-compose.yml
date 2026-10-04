@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: smartgn-iam-db
+    environment:
+      POSTGRES_DB: iam_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      # PostgreSQL 18 uses /var/lib/postgresql (not /var/lib/postgresql/data)
+      - iam_pgdata:/var/lib/postgresql
+
+volumes:
+  iam_pgdata:
